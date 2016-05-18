@@ -1,2 +1,5 @@
 .idea/
 venv/
+tmp/
+sources/
+*.zip

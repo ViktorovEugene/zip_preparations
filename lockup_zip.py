@@ -1,4 +1,3 @@
-import os
 import zipfile
 
 
@@ -6,10 +5,9 @@ def get_zips_png_file_names(zip_object):
     return [name for name in zip_object.namelist() if name[-4:] == '.png']
 
 
-def check_zip_names_on_archive_bomb(zip_object, names_to_check):
+def check_zip_names_on_archive_bomb(zf, names_to_check):
     total_size_diff = 0
-    for info in (info for info in zip_object.infolist()
-                 if info. filename in names_to_check):
+    for info in map(zf.getinfo, names_to_check):
         total_size_diff += info.file_size - info.compress_size
     print('\tTotal size diff:\t', total_size_diff, 'bytes')
     if total_size_diff > 10 ** 9:
