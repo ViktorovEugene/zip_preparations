@@ -26,7 +26,7 @@ def create_archive():
 
 
 def copy_archive(zipfile_name):
-    print('---------------\nCopy "%s"' % zipfile_name)
+    print('--------------\nCopy "%s"\n--------------' % zipfile_name)
 
     zf_copy_source = zipfile.ZipFile(zipfile_name, mode='r')
 
@@ -46,11 +46,19 @@ def copy_archive(zipfile_name):
             for name in files_to_copy:
                     zf_copy_to.write(name, compress_type=compression)
 
-            input("Extraction done! look at it!\n%s" % files_to_copy)
     finally:
         os.chdir(curr_cwd)
         zf_copy_source.close()
         zf_copy_to.close()
+
+    if os.path.exists(zf_copy_to.filename):
+        print('Done => "%s"' % zf_copy_to.filename)
+
+        # TODO: Delete cleanup
+        print("Do cleanup...")
+        os.remove(zf_copy_to.filename)
+    else:
+        raise FileExistsError("Failed to copy archive")
 
 
 if __name__ == "__main__":
