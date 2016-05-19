@@ -1,4 +1,5 @@
 import os
+from os.path import join
 import zipfile
 import tempfile
 
@@ -29,15 +30,28 @@ def copy_archive(zipfile_name):
 
     zf_copy_source = zipfile.ZipFile(zipfile_name, mode='r')
 
-    # copy_name = zipfile_name[:-4] + "(copy)" + zipfile_name[-4:]
-    # zf_copy_to = zipfile.ZipFile(copy_name, mode='x')
+    zf_copy_to = zipfile.ZipFile("(copy)" + zipfile_name, mode='x')
 
-    with tempfile.TemporaryDirectory(suffix='_zip') as tmpdirname:
-        zf_copy_source.extractall(
-            tmpdirname,
-            zf_copy_source.namelist()
-        )
-        input("Extraction done! look at it!\n%s" % os.listdir(tmpdirname))
+    curr_cwd = os.getcwd()
+
+    try:
+        with tempfile.TemporaryDirectory(suffix='_zip') as tmpdirname:
+            zf_copy_source.extractall(
+                tmpdirname,
+                zf_copy_source.namelist()
+            )
+            os.chdir(tmpdirname)
+            files_to_copy = os.listdir()
+
+            for name in files_to_copy:
+                    zf_copy_to.write(name, compress_type=compression)
+
+            input("Extraction done! look at it!\n%s" % files_to_copy)
+    finally:
+        os.chdir(curr_cwd)
+        zf_copy_source.close()
+        zf_copy_to.close()
+
 
 if __name__ == "__main__":
     name_to_copy = create_archive()
