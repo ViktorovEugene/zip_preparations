@@ -10,6 +10,7 @@ def print_info(archive_name):
               '\tCompressed:\t%s bytes' % info.compress_size,
               '\tUncompressed:\t%s bytes' % info.file_size,
               sep='\n')
+    zf.close()
 
 if __name__ == '__main__':
     print_info('example.zip')

@@ -8,7 +8,6 @@ try:
 except Exception:
     compression = zipfile.ZIP_STORED
 
-from zip_infolist import print_info
 from lockup_zip import get_zips_png_file_names
 
 
@@ -38,8 +37,8 @@ def copy_archive(zipfile_name):
             input('Check compressed files!')
             print("Update the source archive...")
 
-            with os.popen('zip -r %s %s' %
-                          (zf_abs_path, ' '.join(names_to_copy))
+            with os.popen('zip -r %s "%s"' %
+                          (zf_abs_path, '" "'.join(names_to_copy))
                           ) as file_:
                 console_run_result = file_.read()
 
@@ -53,8 +52,6 @@ def copy_archive(zipfile_name):
         os.chdir(curr_cwd)
         zf_copy_source.close()
 
-
-
 if __name__ == "__main__":
-    name_to_copy = 'archive.zip'
+    name_to_copy = 'sources.zip'
     copy_archive(name_to_copy)
