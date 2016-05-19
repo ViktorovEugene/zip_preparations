@@ -13,7 +13,7 @@ from zip_infolist import print_info
 
 
 def create_archive():
-    print("----------\nCreate archive")
+    print("--------------\nCreate archive")
     zf = zipfile.ZipFile("tmp.zip", mode='w')
     try:
         zf.write('random_text.txt')
@@ -21,7 +21,6 @@ def create_archive():
                  compress_type=compression)
     finally:
         zf.close()
-    print_info(zf.filename)
     return zf.filename
 
 
@@ -41,9 +40,9 @@ def copy_archive(zipfile_name):
                 zf_copy_source.namelist()
             )
             os.chdir(tmpdirname)
-            files_to_copy = os.listdir()
+            names_to_copy = zf_copy_source.namelist()
 
-            for name in files_to_copy:
+            for name in names_to_copy:
                     zf_copy_to.write(name, compress_type=compression)
 
     finally:
@@ -53,7 +52,9 @@ def copy_archive(zipfile_name):
 
     if os.path.exists(zf_copy_to.filename):
         print('Done => "%s"' % zf_copy_to.filename)
-
+        print('--------------')
+        print_info(zf_copy_to.filename)
+        print('--------------')
         # TODO: Delete cleanup
         print("Do cleanup...")
         os.remove(zf_copy_to.filename)
