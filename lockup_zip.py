@@ -15,11 +15,6 @@ def check_zip_names_on_archive_bomb(zf, names_to_check):
 
 
 if __name__ == "__main__":
-    # search_zip_for_png('python_html.zip')
-    # zf = zipfile.ZipFile('python_html_no_png.zip', 'r')
-    # zf = zipfile.ZipFile('python_html.zip', 'r')
     zf = zipfile.ZipFile('png_html_page.zip', 'r')
     png_files = get_zips_png_file_names(zf)
-    # print(png_files)
-    print(check_zip_names_on_archive_bomb(zf, png_files))
-    # get_zip_infolist('python_html_no_png.zip')
+    check_zip_names_on_archive_bomb(zf, png_files)
